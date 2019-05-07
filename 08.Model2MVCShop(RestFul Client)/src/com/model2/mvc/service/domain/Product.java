@@ -15,6 +15,7 @@ public class Product {
 	private Date regDate;
 	private String fileName;
 	private String proTranCode;
+	private int Stock;
 
 	///Constructor
 	public Product() {
@@ -83,6 +84,14 @@ public class Product {
 
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
+	}
+	
+	public int getStock() {
+		return Stock;
+	}
+
+	public void setStock(int stock) {
+		Stock = stock;
 	}
 
 	@Override

@@ -34,11 +34,9 @@ public class Purchase {
 		this.dlvyAddr = dlvyAddr;
 	}
 	public String getDlvyDate() {
-		System.out.println("getDlvyDate : " + dlvyDate);
 		return dlvyDate;
 	}
 	public void setDlvyDate(String dlvyDate) {
-		System.out.println("setDlvyDate : " + dlvyDate);
 		this.dlvyDate = (dlvyDate!=null && dlvyDate.length()>10?dlvyDate.substring(0, 11):dlvyDate);
 	}
 	public String getDlvyRequest() {
@@ -57,7 +55,7 @@ public class Purchase {
 		return paymentOption;
 	}
 	public void setPaymentOption(String paymentOption) {
-		this.paymentOption = paymentOption.trim();
+		this.paymentOption = paymentOption != null ? paymentOption.trim() : paymentOption;
 	}
 	public Product getPurchaseProd() {
 		return purchaseProd;
