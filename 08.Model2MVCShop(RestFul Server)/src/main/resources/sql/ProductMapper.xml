@@ -16,6 +16,7 @@
 		<result property="fileName" 	column="image_file" 		jdbcType="VARCHAR"/>
 		<result property="regDate" 		column="reg_date" 			jdbcType="DATE"/>
 		<result property="proTranCode" 	column="tran_status_code"	jdbcType="VARCHAR"/>
+		<result property="stock"		column="stock"				jdbcType="NUMERIC"/>
 	</resultMap>
 
 	<sql id="select-product">
@@ -26,14 +27,30 @@
 		, p.manufacture_day           
 		, p.price               
 		, p.image_file            
+		, p.reg_date        
+		, p_s.stock
+		FROM product p, product_stock p_s
+		WHERE p.prod_no = p_s.prod_no
+	</sql>
+	
+	<sql id="select-product-trancode">
+		SELECT
+		p.prod_no				
+		, p.prod_name           
+		, p.prod_detail         
+		, p.manufacture_day           
+		, p.price               
+		, p.image_file            
 		, p.reg_date            
 		, t.tran_status_code    
-		FROM product p, (SELECT
-						 prod_no, tran_status_code
-						 FROM transaction
-						 WHERE tran_status_code != 0
-						 OR tran_status_code IS NULL) t
+		, p_s.stock
+		FROM product p, product_stock p_s, (SELECT
+						 					prod_no, tran_status_code
+						 					FROM transaction
+						 					WHERE tran_status_code != 0
+						 					OR tran_status_code IS NULL) t
 		WHERE p.prod_no = t.prod_no(+)
+		AND p.prod_no = p_s.prod_no
 	</sql>
 
 
@@ -85,6 +102,12 @@
 				 <if test="price == 0"> 0 </if>,
 				 #{fileName:VARCHAR},
 				 SYSDATE)
+	</insert>
+	
+	<insert id="addProductStock" parameterType="product">
+		INSERT
+		INTO product_stock (prod_no, stock)
+		VALUES ( SEQ_PRODUCT_PROD_NO.CURRVAL, #{stock} )
 	</insert>
 	
 	<select id="getProduct" parameterType="int" resultMap="productResultMap">

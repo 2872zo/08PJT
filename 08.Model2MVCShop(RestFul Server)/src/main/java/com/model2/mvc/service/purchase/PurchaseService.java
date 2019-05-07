@@ -17,4 +17,6 @@ public interface PurchaseService {
 	public int deletePurchase(int tranNo);
 	
 	public Map<String,Object> getPurchaseList(Search search);
+
+	public int cancelTranCode(Purchase purchase);
 }

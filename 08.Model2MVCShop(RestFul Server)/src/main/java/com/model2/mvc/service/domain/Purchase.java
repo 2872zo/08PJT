@@ -17,6 +17,7 @@ public class Purchase {
 	private String tranCode;
 	private Date orderDate;
 	private String dlvyDate;
+	private int quantity;
 	
 	public Purchase(){
 	}
@@ -86,6 +87,14 @@ public class Purchase {
 	}
 	public void setTranNo(int tranNo) {
 		this.tranNo = tranNo;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override

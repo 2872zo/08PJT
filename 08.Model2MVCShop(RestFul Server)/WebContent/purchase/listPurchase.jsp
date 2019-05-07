@@ -17,8 +17,8 @@
 		document.detailForm.submit();
 	}
 	
-	function fncUpdatePurchaseCode(currentPage,tranNo){		
-		var URI = "/purchase/updateTranCode?page="+currentPage+"&tranNo="+tranNo+"&tranCode=3";
+	function fncUpdatePurchaseCode(currentPage,tranNo,tranCode){		
+		var URI = "/purchase/updateTranCode?page="+currentPage+"&tranNo="+tranNo+"&tranCode="+tranCode;
 		
 		console.log(URI);
 		

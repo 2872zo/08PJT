@@ -63,4 +63,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 		return map;
 	}
 
+	@Override
+	public int cancelTranCode(Purchase purchase) {
+		purchaseDao.updatePurchase(purchase);
+		purchaseDao.cancelTranCode(purchase);
+		return 0;
+	}
+
 }

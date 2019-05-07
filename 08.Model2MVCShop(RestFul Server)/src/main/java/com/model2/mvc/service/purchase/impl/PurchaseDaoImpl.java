@@ -27,7 +27,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
 	
 	@Override
 	public int addPurchase(Purchase purchase) {
-		return sqlSession.insert("PurchaseMapper.addPurchase", purchase);
+		return (sqlSession.insert("PurchaseMapper.addPurchase", purchase)==1&&sqlSession.update("PurchaseMapper.updateStock",purchase)==1)?1:0;
 	}
 
 	@Override
@@ -58,6 +58,11 @@ public class PurchaseDaoImpl implements PurchaseDao{
 	@Override
 	public int makeTotalCount(Search search) {
 		return sqlSession.selectOne("PurchaseMapper.makeTotalCount", search);
+	}
+
+	@Override
+	public int cancelTranCode(Purchase purchase) {
+		return sqlSession.update("PurchaseMapper.cancelPurchase", purchase);
 	}
 
 }

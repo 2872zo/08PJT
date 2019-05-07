@@ -15,7 +15,7 @@ public class Product {
 	private Date regDate;
 	private String fileName;
 	private String proTranCode;
-	private int Stock;
+	private int stock;
 
 	///Constructor
 	public Product() {
@@ -87,18 +87,18 @@ public class Product {
 	}
 	
 	public int getStock() {
-		return Stock;
+		return stock;
 	}
 
 	public void setStock(int stock) {
-		Stock = stock;
+		this.stock = stock;
 	}
 
 	@Override
 	public String toString() {
 		return "Product [prodNo=" + prodNo + ", prodName=" + prodName + ", prodDetail=" + prodDetail + ", price="
 				+ price + ", manuDate=" + manuDate + ", regDate=" + regDate + ", fileName=" + fileName
-				+ ", proTranCode=" + proTranCode + "]";
+				+ ", proTranCode=" + proTranCode + ", stock=" + stock + " ]";
 	}
 
 	public List<String> toList() {

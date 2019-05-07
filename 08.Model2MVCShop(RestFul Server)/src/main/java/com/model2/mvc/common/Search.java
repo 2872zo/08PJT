@@ -9,6 +9,7 @@ import java.util.Arrays;
 public class Search{
 	///Field
 	private String userId;
+	private int prodNo;
 	private int currentPage;
 	private String searchCondition;
 	private String searchKeyword;
@@ -101,12 +102,23 @@ public class Search{
 		return (getCurrentPage()-1)*getPageSize()+1;
 	}
 
+	public int getProdNo() {
+		return prodNo;
+	}
+
+	public void setProdNo(int prodNo) {
+		this.prodNo = prodNo;
+	}
+
 	@Override
 	public String toString() {
-		return "Search [userId=" + userId + ", currentPage=" + currentPage
-				+ ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + ", pageSize=" + pageSize
-				+ ", sortCode=" + sortCode + ", hiddingEmptyStock=" + hiddingEmptyStock + "]";
+		return "Search [userId=" + userId + ", prodNo=" + prodNo + ", currentPage=" + currentPage + ", searchCondition="
+				+ searchCondition + ", searchKeyword=" + searchKeyword + ", splitKeyword="
+				+ Arrays.toString(splitKeyword) + ", pageSize=" + pageSize + ", sortCode=" + sortCode
+				+ ", hiddingEmptyStock=" + hiddingEmptyStock +"]";
 	}
+
+	
 	
 	
 	

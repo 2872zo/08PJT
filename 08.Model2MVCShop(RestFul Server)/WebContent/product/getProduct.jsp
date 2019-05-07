@@ -20,7 +20,7 @@ function fncGetAddPurchaseView(prodNo){
 </head>
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="detailForm" method="post" action="/purchase/addPurchaseView?">
+<form name="detailForm" method="post" action="/purchase/addPurchaseView">
 <input type="hidden" name="prodNo" id="prodNo">
 
 <c:import url="../common/getDetail.jsp"/>
@@ -32,7 +32,21 @@ function fncGetAddPurchaseView(prodNo){
 
 		<table border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<c:if test="${user.role eq 'user' && empty product.proTranCode}">
+				<c:if test="${user.role eq 'admin' && product.stock > 0}">
+					<td width="17" height="23">
+						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
+					</td>
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
+							<a href="/product/updateProductView?prodNo=${product.prodNo}">¼öÁ¤</a>
+					</td>
+					
+					<td width="14" height="23">
+						<img src="/images/ct_btnbg03.gif" width="14" height="23">
+					</td>
+					<td width="30"></td>
+				</c:if>
+			
+				<c:if test="${user.role eq 'user' && product.stock > 0}">
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>

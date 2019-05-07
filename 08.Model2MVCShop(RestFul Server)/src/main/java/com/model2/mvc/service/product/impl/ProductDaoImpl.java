@@ -25,8 +25,8 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public int addProduct(Product product) {
-		return sqlSession.insert("ProductMapper.addProduct", product);
+	public int addProduct(Product product) {		
+		return (sqlSession.insert("ProductMapper.addProduct", product)==1 && (sqlSession.insert("ProductMapper.addProductStock",product)==1)?1:0);
 	}
 
 	@Override

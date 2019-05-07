@@ -19,6 +19,7 @@
 		<result property="tranCode" 	            column="tran_status_code" 	jdbcType="VARCHAR"/>
 		<result property="orderDate" 	            column="order_date" 		jdbcType="DATE"/>
 		<result property="dlvyDate" 	            column="dlvy_date" 			jdbcType="VARCHAR"/>
+		<result property="quantity"					column="quantity"			jdbcType="NUMERIC"/>
 	</resultMap>
 
 
@@ -34,8 +35,13 @@
 		,dlvy_request
 		,tran_status_code
 		,order_date	
-		,dlvy_date		    
-		FROM transaction
+		,dlvy_date		   
+		,quantity 
+		FROM transaction	
+		<where>
+		<if test="userId != null and userId != 'admin'.toString()">buyer_id = #{userId}</if>
+		<if test="prodNo != 0 and (userId !=null and userId == 'admin'.toString())">prod_no = #{prodNo}</if>
+		</where>	
 	</sql>
 
 	<insert id="addPurchase" parameterType="purchase">
@@ -52,6 +58,7 @@
 				,tran_status_code
 				,order_date 	
 				,dlvy_date 		
+				,quantity
 		)
 		VALUES ( SEQ_TRANSACTION_TRAN_NO.NEXTVAL 
 				 ,#{purchaseProd.prodNo:NUMERIC}
@@ -64,11 +71,36 @@
 				 ,1
 				 ,SYSDATE
 				 ,#{dlvyDate:DATE}
+				 ,#{quantity:NUMERIC}
 				 )
 	</insert>
 	
+	<update id="updateStock" parameterType="purchase">
+		UPDATE
+		product_stock
+		<set>
+			stock = stock - #{quantity}
+		</set>
+		<where>
+			prod_no = #{purchaseProd.prodNo}
+		</where>
+	</update>
+	
 	<select id="getPurchase" parameterType="int" resultMap="purchaseResultMap">
-		<include refid="select-purchase-list"/>
+		SELECT
+		tran_no		
+		,prod_no		
+		,buyer_id	
+		,payment_option
+		,receiver_name	
+		,receiver_phone
+		,demailaddr	
+		,dlvy_request
+		,tran_status_code
+		,order_date	
+		,dlvy_date		   
+		,quantity 
+		FROM transaction	
 		WHERE tran_no = #{value}
 	</select>
 	
@@ -81,6 +113,7 @@
   			<if test="dlvyAddr != null">		demailaddr 		=	#{dlvyAddr:VARCHAR},</if>
   			<if test="dlvyRequest != null">		dlvy_request 	=	#{dlvyRequest:VARCHAR},</if>
   			<if test="dlvyDate != null">		dlvy_date  		=	#{dlvyDate:DATE},</if>
+  			<if test="quantity != null"> 		quantity		=	#{quantity:NUMERIC}</if>
   		</set>                                              
   		<where>
   			tran_no = #{tranNo}
@@ -99,7 +132,15 @@
   				prod_no = #{purchaseProd.prodNo}
   			</if>
   		</where> 
+  	</update>
   	
+  	<update id="cancelPurchase" parameterType="purchase">
+  		UPDATE
+  		product_stock
+  		SET stock = stock + #{quantity}
+  		<where>
+  			prod_no = #{purchaseProd.prodNo}
+  		</where> 
   	</update>
 	
 	<delete id="deletePurchase" parameterType="int">
@@ -112,8 +153,7 @@
 		SELECT
 		COUNT(*)
 		FROM
-		(<include refid="select-purchase-list"/>
-		 WHERE buyer_id = #{userId})
+		(<include refid="select-purchase-list"/>)
 	</select>
 	
 	<select id="getPurchaseList" resultMap="purchaseResultMap">
@@ -124,7 +164,7 @@
 		 inner_table.*, ROWNUM AS row_seq
 		 FROM 
 		 (<include refid="select-purchase-list"/>
-		  	WHERE buyer_id = #{userId}
+		  	
 		  	ORDER BY tran_no) inner_table
 		 WHERE ROWNUM &lt;= #{endRowNum}
 		 )
