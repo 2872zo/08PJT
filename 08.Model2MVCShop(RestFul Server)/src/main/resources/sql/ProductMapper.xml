@@ -17,20 +17,27 @@
 		<result property="regDate" 		column="reg_date" 			jdbcType="DATE"/>
 		<result property="proTranCode" 	column="tran_status_code"	jdbcType="VARCHAR"/>
 		<result property="stock"		column="stock"				jdbcType="NUMERIC"/>
+		<result property="tranCount"	column="count" 				jdbcType="NUMERIC"/>
 	</resultMap>
 
 	<sql id="select-product">
 		SELECT
-		p.prod_no				
+		  p.prod_no				
 		, p.prod_name           
 		, p.prod_detail         
 		, p.manufacture_day           
 		, p.price               
 		, p.image_file            
-		, p.reg_date        
+		, p.reg_date  
 		, p_s.stock
-		FROM product p, product_stock p_s
+		, ct.count
+		FROM product p, product_stock p_s,( SELECT
+											p.prod_no, COUNT(*) count
+											FROM transaction t, product p
+											WHERE p.prod_no = t.prod_no
+											GROUP BY p.prod_no) ct
 		WHERE p.prod_no = p_s.prod_no
+		AND p.prod_no = ct.prod_no(+)
 	</sql>
 	
 	<sql id="select-product-trancode">
@@ -56,7 +63,7 @@
 
 	<sql id="select-product-list">
 	<include refid="select-product"/>
-	<if test="hiddingEmptyStock"> AND t.tran_status_code IS NULL </if>
+	<if test="hiddingEmptyStock"> AND p_s.stock > 0</if>
 		<if test="!(searchKeyword == null or searchKeyword == '')">
 			<choose>
 				<when test="searchCondition  == 0">

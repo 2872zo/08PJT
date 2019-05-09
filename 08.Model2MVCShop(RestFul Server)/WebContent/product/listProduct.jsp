@@ -48,7 +48,7 @@ function fncGetProductList(currentPage){
 	document.detailForm.submit();
 }
 
-function fncSortProductList(currentPage, sortCode){
+function fncSortList(currentPage, sortCode){
 	document.detailForm.currentPage.value = currentPage;
 	document.detailForm.menu.value = "${param.menu}";
 	document.detailForm.sortCode.value = sortCode;
@@ -129,17 +129,17 @@ function fncUpdateTranCodeByProd(currentPage, prodNo){
 	</tr>
 	<tr>
 		<td align="center">
-			<a href="javascript:fncSortProductList(${resultPage.currentPage},0)">상품 번호 오름차순</a>
+			<a href="javascript:fncSortList(${resultPage.currentPage},0)">상품 번호 오름차순</a>
 			&nbsp;
-			<a href="javascript:fncSortProductList(${resultPage.currentPage},1)">상품 번호 내림차순</a>
+			<a href="javascript:fncSortList(${resultPage.currentPage},1)">상품 번호 내림차순</a>
 			&nbsp;
-			<a href="javascript:fncSortProductList(${resultPage.currentPage},2)">상품 이름 오름차순</a>
+			<a href="javascript:fncSortList(${resultPage.currentPage},2)">상품 이름 오름차순</a>
 			&nbsp;
-			<a href="javascript:fncSortProductList(${resultPage.currentPage},3)">상품 이름 내림차순</a>
+			<a href="javascript:fncSortList(${resultPage.currentPage},3)">상품 이름 내림차순</a>
 			&nbsp;
-			<a href="javascript:fncSortProductList(${resultPage.currentPage},4)">가격 낮은순</a>
+			<a href="javascript:fncSortList(${resultPage.currentPage},4)">가격 낮은순</a>
 			&nbsp;
-			<a href="javascript:fncSortProductList(${resultPage.currentPage},5)">가격 높은순</a>
+			<a href="javascript:fncSortList(${resultPage.currentPage},5)">가격 높은순</a>
 		</td>
 	</tr>
 	<tr>

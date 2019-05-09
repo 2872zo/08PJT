@@ -101,6 +101,7 @@ public class PurchaseController {
 	@RequestMapping(value="listPurchase")
 	public ModelAndView getPurchaseList(@RequestParam(value = "page", defaultValue = "1") int page, 
 								  @RequestParam(value = "currentPage", defaultValue= "1") int currentPage,
+								  @ModelAttribute Search search, @RequestParam(value="pageSize", defaultValue="0") int pageSize,
 								  HttpServletRequest request,HttpSession session) throws Exception {
 		
 		System.out.println("\n==>listPurchase Start.........");
@@ -109,10 +110,13 @@ public class PurchaseController {
 			currentPage = page;
 		}
 		
+		if(pageSize == 0) {
+			pageSize = this.pageSize;
+		}
+		
 		User user = (User)session.getAttribute("user");
 		
 		//3.DB 접속을 위한 search
-		Search search = new Search();
 		search.setCurrentPage(currentPage);
 		search.setPageSize(pageSize);
 		search.setUserId(user.getUserId());
@@ -230,11 +234,13 @@ public class PurchaseController {
 
 		purchaseService.cancelTranCode(purchase);
 		
-		return new ModelAndView("forward:/puchase/listPurchase");
+		return new ModelAndView("forward:/purchase/listPurchase");
 	}
 	
 	@RequestMapping("listSale")
-	public ModelAndView getSaleList(HttpServletRequest request,@RequestParam int prodNo, @RequestParam(value="currentPage",defaultValue="1") int currentPage, HttpSession session) {
+	public ModelAndView getSaleList(HttpServletRequest request,@RequestParam int prodNo, HttpSession session, 
+					@RequestParam(value="currentPage",defaultValue="1") int currentPage,
+					@ModelAttribute Search search) {
 		System.out.println("\n==>listPurchase Start.........");
 		
 		User user = (User)session.getAttribute("user");
@@ -244,9 +250,9 @@ public class PurchaseController {
 		}
 		
 		//3.DB 접속을 위한 search
-		Search search = new Search();
 		search.setCurrentPage(currentPage);
 		search.setPageSize(pageSize);
+		search.setUserId(user.getUserId());
 		search.setProdNo(prodNo);
 
 		///4.DB에 접속하여 결과값을 Map으로 가져옴
@@ -286,6 +292,7 @@ public class PurchaseController {
 		modelAndView.addObject("columList", columList);
 		modelAndView.addObject("unitList", unitList);
 		modelAndView.addObject("resultPage", resultPage);
+		modelAndView.addObject("search",search);
 
 		System.out.println("\n==>listPurchase End.........");
 		

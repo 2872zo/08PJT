@@ -65,7 +65,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	@Override
 	public int cancelTranCode(Purchase purchase) {
-		purchaseDao.updatePurchase(purchase);
+		purchaseDao.updateTranCode(purchase);
+		purchase = purchaseDao.getPurchase(purchase.getTranNo());
 		purchaseDao.cancelTranCode(purchase);
 		return 0;
 	}

@@ -39,8 +39,13 @@
 		,quantity 
 		FROM transaction	
 		<where>
-		<if test="userId != null and userId != 'admin'.toString()">buyer_id = #{userId}</if>
-		<if test="prodNo != 0 and (userId !=null and userId == 'admin'.toString())">prod_no = #{prodNo}</if>
+			<if test="userId != null and userId != 'admin'.toString()">buyer_id = #{userId}</if>
+			<if test="prodNo != 0 and (userId !=null and userId == 'admin'.toString())">AND prod_no = #{prodNo}</if>
+			<if test="hiddingEmptyStock">AND tran_status_code IN (1,2)</if>
+			<if test="sortCode == 4">AND tran_status_code = 0</if>
+			<if test="sortCode == 1">AND tran_status_code = 1</if>
+			<if test="sortCode == 2">AND tran_status_code = 2</if>
+			<if test="sortCode == 3">AND tran_status_code = 3</if>
 		</where>	
 	</sql>
 

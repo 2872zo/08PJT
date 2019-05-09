@@ -16,6 +16,7 @@ public class Product {
 	private String fileName;
 	private String proTranCode;
 	private int stock;
+	private int tranCount;
 
 	///Constructor
 	public Product() {
@@ -93,6 +94,14 @@ public class Product {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
+	
+	public int getTranCount() {
+		return tranCount;
+	}
+
+	public void setTranCount(int tranCount) {
+		this.tranCount = tranCount;
+	}
 
 	@Override
 	public String toString() {
@@ -111,6 +120,7 @@ public class Product {
 		productList.add("제조일자,"+manuDate);
 		productList.add("가격,"+price);
 		productList.add("등록일자,"+regDate);
+		productList.add("재고,"+stock);
 		return productList;
 	}
 	

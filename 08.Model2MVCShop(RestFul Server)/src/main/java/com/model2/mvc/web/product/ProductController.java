@@ -201,46 +201,26 @@ public class ProductController {
 			//1.제품 순서 번호
 			UnitDetail.add(String.valueOf(i + 1));
 			//2.제품 이름
-			//a태그 유무 확인
-			if (menu.equals("manage")) {
-				String aTagSaleListStart = "<a href='/purchase/listSale?prodNo=" + productList.get(i).getProdNo() + "\'>";
-				UnitDetail.add(aTagSaleListStart + productList.get(i).getProdName() + aTagEnd);
-			} else {
-				String aTagGetProductStart = "<a href='/product/getProduct?prodNo=" + productList.get(i).getProdNo() + "\'>";
-				UnitDetail.add(aTagGetProductStart + productList.get(i).getProdName() + aTagEnd);
-			}
+			String aTagGetProductStart = "<a href='/product/getProduct?prodNo=" + productList.get(i).getProdNo() + "\'>";
+			UnitDetail.add(aTagGetProductStart + productList.get(i).getProdName() + aTagEnd);
 			//3.제품 가격
 			UnitDetail.add(String.valueOf(productList.get(i).getPrice()));
 			//4.제품 등록 날짜
 			UnitDetail.add(String.valueOf(productList.get(i).getRegDate()));
 			//5.제품 상태
-//			if(menu.equals("search")) {
-				if(productList.get(i).getStock() > 0) {
+			if (menu.equals("manage")) {
+				if(productList.get(i).getTranCount() != 0) {
+					String aTagSaleListStart = "<a href='/purchase/listSale?prodNo=" + productList.get(i).getProdNo() + "\'>";
+					UnitDetail.add(aTagSaleListStart + "거래 건수 : " + productList.get(i).getTranCount() + aTagEnd);
+				}
+			} else {
+				if (productList.get(i).getStock() > 0) {
 					UnitDetail.add("판매중");
-				}else {
+				} else {
 					UnitDetail.add("재고없음");
 				}
-//			}else {
-//				if (productList.get(i).getProTranCode() != null) {
-//					switch (productList.get(i).getProTranCode()) {
-//					case "1":
-//						String aTagUpdateTranCodeStart = "<a href=\"javascript:fncUpdateTranCodeByProd(" + currentPage
-//								+ "," + productList.get(i).getProdNo() + ");\">";
-//						UnitDetail.add("배송준비중&nbsp;" + aTagUpdateTranCodeStart + "배송 출발" + aTagEnd);
-//						break;
-//					case "2":
-//						UnitDetail.add("배송중");
-//						break;
-//					case "3":
-//						UnitDetail.add("거래완료");
-//						break;
-//					default:
-//						UnitDetail.add("판매중");
-//					}
-//				} else {
-//					UnitDetail.add("판매중");
-//				}
-//			}
+			}
+
 			
 			
 			
